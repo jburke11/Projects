@@ -13,16 +13,13 @@ for line in fp :
     if list1[2] == "A" :
         list1[0] = " ".join(list1[0:2])
         list1.remove(list1[1])
-        print ("\t".join(list1))
         list3.append(list1)
     elif list1[2] == "B" :
         list2 = list1[0:2] + ["A" for B in list1[2] if line] + ["B" for A in list1[3] if line] + ["B" if ch == "A" else "A" for ch in list1[4:] if ch]
         list2[0] = " ".join(list1[0:2])
         list2.remove(list1[1])
-        print ("\t".join(list2))
         list3.append(list2)
     else:
-        print ("               ", "\t".join(list1))
         list1.insert(0,"")
         list3.append(list1)
 
