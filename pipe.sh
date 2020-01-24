@@ -1,3 +1,4 @@
+#!/bin/bash
 module load SRAToolkit
 module load cutadapt
 module load FastQC

@@ -9,8 +9,8 @@ module load SAMTools
 '
 while getopts ":i:r:c" opt; do
   case $opt in
-    i) ssr=$OPTARG
-       echo $ssr ;;
+    i) ssr+=$OPTARG
+       echo ${multi[@]} ;;
     r) wget -O reference$ssr.fa $OPTARG;;
     c) clean= 1 ;;
     \?) echo "[-i for ssr id] [-r for reference genome url] [-c for optional cleanup]";;

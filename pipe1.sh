@@ -1,3 +1,4 @@
+#!/bin/bash
 module load SRAToolkit
 module load cutadapt
 module load FastQC
@@ -5,13 +6,9 @@ module load copper.soft
 module load HISAT2
 module load SAMTools
 
-echo "input SRA id: "
-read sra
-echo "enter reference genome url"
-read url
-wget -O reference.fa $url
-prefetch $sra
-echo "sra files downloaded"
+
+
+
 hisat2-build -f reference.fa reference
 echo "reference built"
 
