@@ -1,6 +1,6 @@
 #!/bin/bash
 
-clean = false
+clean=false
 while getopts ":i:r:ch" opt; do
   case $opt in
     i) sra=$OPTARG ;;
