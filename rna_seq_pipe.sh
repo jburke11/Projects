@@ -7,6 +7,7 @@ module load copper.soft
 module load HISAT2
 module load SAMTools
 
+clean = false
 while getopts ":i:r:c" opt; do
   case $opt in
     i) sra=$OPTARG ;;
