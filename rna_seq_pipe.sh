@@ -5,11 +5,12 @@ while getopts ":i:r:ch" opt; do
   case $opt in
     i) sra=$OPTARG ;;
     r) wget -O reference$sra.fa $OPTARG;;
-    c) clean = true ;;
+    c) clean=true ;;
     h) echo "[-i for sra id] [-r for reference genome url] [-c for optional cleanup]"
         exit 1;;
   esac
 done
+
 module load SRAToolkit
 module load cutadapt
 module load FastQC
