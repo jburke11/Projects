@@ -1,21 +1,21 @@
 #!/bin/bash
 
-module load SRAToolkit
-module load cutadapt
-module load FastQC
-module load copper.soft
-module load HISAT2
-module load SAMTools
-
 clean = false
 while getopts ":i:r:ch" opt; do
   case $opt in
     i) sra=$OPTARG ;;
     r) wget -O reference$sra.fa $OPTARG;;
     c) clean = true ;;
-    h) echo "[-i for sra id] [-r for reference genome url] [-c for optional cleanup]";;
+    h) echo "[-i for sra id] [-r for reference genome url] [-c for optional cleanup]"
+        exit 1;;
   esac
 done
+module load SRAToolkit
+module load cutadapt
+module load FastQC
+module load copper.soft
+module load HISAT2
+module load SAMTools
 
 prefetch $sra
 fastq-dump --split-files --split-spot -F $sra
