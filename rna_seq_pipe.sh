@@ -8,12 +8,12 @@ module load HISAT2
 module load SAMTools
 
 clean = false
-while getopts ":i:r:c" opt; do
+while getopts ":i:r:ch" opt; do
   case $opt in
     i) sra=$OPTARG ;;
     r) wget -O reference$sra.fa $OPTARG;;
     c) clean = true ;;
-    \?) echo "[-i for sra id] [-r for reference genome url] [-c for optional cleanup]";;
+    h) echo "[-i for sra id] [-r for reference genome url] [-c for optional cleanup]";;
   esac
 done
 
