@@ -56,7 +56,10 @@ then
   while read line
   do
     sra=$line
+    mkdir $line
+    cd $line
     pipeline
+    cd ..
   done < $sra_input
 
 else          # does pipe with only 1 sra
