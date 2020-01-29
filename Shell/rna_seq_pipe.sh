@@ -46,7 +46,7 @@ while getopts ":i:r:ch" opt; do   #fetches command line arguments and creates ne
       fi;;
     r) wget -O reference$sra.fa $OPTARG;;
     c) clean=true ;;
-    h) echo "[-i for sra id/sra id file] [-r for reference genome url] [-c for optional cleanup] [-m for more than one sra inputs]"
+    h) echo "[-i for sra id/sra id file] [-r for reference genome url] [-c for optional cleanup]"
         exit 1;;
   esac
 done
