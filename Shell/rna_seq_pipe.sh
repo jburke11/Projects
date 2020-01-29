@@ -42,6 +42,7 @@ while getopts ":i:r:ch" opt; do   #fetches command line arguments and creates ne
         then
         multi=true
       else
+        sra=sra_input
         multi=false
       fi;;
     r) wget -O reference$sra.fa $OPTARG;;
