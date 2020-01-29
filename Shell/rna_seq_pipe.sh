@@ -1,23 +1,16 @@
 #!/bin/bash
 
-clean=false
-while getopts ":i:r:ch" opt; do
-  case $opt in
-    i) sra=$OPTARG ;;
-    r) wget -O reference$sra.fa $OPTARG;;
-    c) clean=true ;;
-    h) echo "[-i for sra id] [-r for reference genome url] [-c for optional cleanup]"
-        exit 1;;
-  esac
-done
 
+function load_modules {   #load all required modules
 module load SRAToolkit
 module load cutadapt
 module load FastQC
 module load copper.soft
 module load HISAT2
 module load SAMTools
+}
 
+function pipeline {  # main pipe for data analysis
 prefetch $sra
 fastq-dump --split-files --split-spot -F $sra
 fastqc $sra*
@@ -29,17 +22,52 @@ hisat2 -x $sra.reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q | samtools view -
 samtools index $sra.sorted.bam
 samtools idxstats $sra.sorted.bam > idxstats.txt
 samtools flagstat $sra.sorted.bam > flagstats.txt
+}
 
-if [ clean = true ]
-then
-    rm -i reference*
-    rm -i *.fastq
-  fi
-
+function unload_modules {   # unloads all modules used
 module unload SRAToolkit
 module unload cutadapt
 module unload FastQC
 module unload copper.soft
 module unload HISAT2
 module unload SAMTools
-exit 0
+}
+
+load_modules
+clean=false
+while getopts ":i:r:ch" opt; do   #fetches command line arguments and creates neccesary vars
+  case $opt in
+    i) sra_input=$OPTARG
+        if [ -a $sra_input ];
+        then
+        multi=true
+      else
+        multi=false
+      fi;;
+    r) wget -O reference$sra.fa $OPTARG;;
+    c) clean=true ;;
+    h) echo "[-i for sra id/sra id file] [-r for reference genome url] [-c for optional cleanup] [-m for more than one sra inputs]"
+        exit 1;;
+  esac
+done
+
+if [ $multi = true ];     # processes multiple sra's by reading in file
+then
+  while read line
+  do
+    sra=$line
+    pipeline
+  done < $sra_input
+
+else          # does pipe with only 1 sra
+  pipeline
+fi
+
+if [ $clean = true ];   #cleans up files
+then
+    rm -i reference*
+    rm -i *.fastq
+  fi
+
+unload_modules  #unload files
+exit 0    # done
