@@ -57,13 +57,18 @@ then
   while read line
   do
     sra=$line
-    mv reference.fa reference$sra.fa
+    mkdir $sra
+    cd $sra
+    cp ../reference.fa reference$sra.fa
     pipeline
+    cd ..
   done < $sra_input
 
 else          # does pipe with only 1 sra
   sra=$sra_input
-  mv reference.fa reference$sra.fa
+  mkdir $sra
+  cd $sra
+  cp ../reference.fa reference$sra.fa
   pipeline
 fi
 
