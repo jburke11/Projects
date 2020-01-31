@@ -19,8 +19,12 @@ cutadapt -g AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -a AGATCG
 fastqc $sra.R*
 (hisat2 -x reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q ; >&2 echo "hisat done") | (samtools view -b -@ 2 ; >&2 echo "sam converted to bam") | (samtools sort -@ 2 -O bam -o $sra.sorted.bam ; >&2 echo "sort done")
 samtools index $sra.sorted.bam
+echo "index done"
 samtools idxstats $sra.sorted.bam > $sra.idxstats.txt
+echo "idxstats done"
 samtools flagstat $sra.sorted.bam > $sra.flagstats.txt
+echo "flagstats done"
+echo "pipe completed"
 }
 
 function unload_modules {   # unloads all modules used
@@ -71,7 +75,7 @@ else          # does pipe with only 1 sra
   cd $sra
   pipeline
 fi
-
+echo "all files analyzed"
 if [ $clean = true ];   #cleans up files
 then
     rm -i reference*
