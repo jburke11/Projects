@@ -68,14 +68,16 @@ then
     pipeline
     cd ..
   done < $sra_input
-
-else          # does pipe with only 1 sra
+fi
+if [ $multi = false ];         # does pipe with only 1 sra
+then
   sra=$sra_input
   mkdir $sra
   cp reference* $sra
   cd $sra
   pipeline
 fi
+
 echo "all files analyzed"
 if [ $clean = true ];   #cleans up files
 then
