@@ -17,8 +17,7 @@ fastqc $sra*
 cutadapt -g AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG -G CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT \
 -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -f fastq -n 2 -m 100 -q 10 -j 4 -o $sra.R1.fastq -p $sra.R2.fastq $sra*.fastq  > $sra.cutadaptlog.txt
 fastqc $sra.R*
-hisat2-build -f reference$sra.fa $sra.reference
-hisat2 -x $sra.reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q | samtools view -b -@ 2| samtools sort -@ 2 -O bam -o $sra.sorted.bam
+hisat2 -x reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q | samtools view -b -@ 2| samtools sort -@ 2 -O bam -o $sra.sorted.bam
 samtools index $sra.sorted.bam
 samtools idxstats $sra.sorted.bam > $sra.idxstats.txt
 samtools flagstat $sra.sorted.bam > $sra.flagstats.txt
@@ -45,7 +44,8 @@ while getopts ":i:r:ch" opt; do   #fetches command line arguments and creates ne
         sra=$sra_input
         multi=false
       fi;;
-    r) wget -O reference.fa $OPTARG;;
+    r) wget -O reference.fa $OPTARG
+       hisat2-build -f reference.fa reference;;
     c) clean=true ;;
     h) echo "[-i for sra id/sra id file] [-r for reference genome url] [-c for optional cleanup]"
         exit 1;;
@@ -58,8 +58,8 @@ then
   do
     sra=$line
     mkdir $sra
+    cp reference* /$sra
     cd $sra
-    cp ../reference.fa reference$sra.fa
     pipeline
     cd ..
   done < $sra_input
@@ -67,8 +67,8 @@ then
 else          # does pipe with only 1 sra
   sra=$sra_input
   mkdir $sra
+  cp reference* /$sra
   cd $sra
-  cp ../reference.fa reference$sra.fa
   pipeline
 fi
 
