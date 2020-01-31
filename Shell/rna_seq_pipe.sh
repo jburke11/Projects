@@ -42,10 +42,10 @@ while getopts ":i:r:ch" opt; do   #fetches command line arguments and creates ne
         then
         multi=true
       else
-        sra=sra_input
+        sra=$sra_input
         multi=false
       fi;;
-    r) wget -O reference$sra.fa $OPTARG;;
+    r) wget -O reference.fa $OPTARG;;
     c) clean=true ;;
     h) echo "[-i for sra id/sra id file] [-r for reference genome url] [-c for optional cleanup]"
         exit 1;;
@@ -57,10 +57,13 @@ then
   while read line
   do
     sra=$line
+    mv reference.fa reference$sra.fa
     pipeline
   done < $sra_input
 
 else          # does pipe with only 1 sra
+  sra=$sra_input
+  mv reference.fa reference$sra.fa
   pipeline
 fi
 
