@@ -52,7 +52,7 @@ while getopts ":i:r:ch" opt; do   #fetches command line arguments and creates ne
     r) wget -O reference.fa $OPTARG
        hisat2-build -f reference.fa reference;;
     c) clean=true ;;
-    h) echo "[-i for sra id/sra id file] [-r for reference genome url] [-c for optional cleanup]"
+    h) echo "[-i for sra id/sra id file] [-r for reference genome url] [-c for optional cleanup] [-h for help]"
         exit 1;;
   esac
 done
