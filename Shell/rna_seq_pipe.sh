@@ -16,7 +16,7 @@ fastq-dump --split-files --split-spot -F $sra
 fastqc $sra*
 cutadapt -g AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG -G CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT \
 -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -f fastq -n 2 -m 100 -q 10 -j 4 -o $sra.R1.fastq -p $sra.R2.fastq $sra*.fastq  > $sra.cutadaptlog.txt
-fastqc $sra.*
+fastqc $sra.R*
 hisat2-build -f reference$sra.fa $sra.reference
 hisat2 -x $sra.reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q | samtools view -b -@ 2| samtools sort -@ 2 -O bam -o $sra.sorted.bam
 samtools index $sra.sorted.bam
