@@ -17,7 +17,7 @@ fastqc $sra*
 cutadapt -g AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG -G CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT \
 -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -f fastq -n 2 -m 100 -q 10 -j 4 -o $sra.R1.fastq -p $sra.R2.fastq $sra*.fastq  > $sra.cutadaptlog.txt
 fastqc $sra.R*
-hisat2 -x reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q | samtools view -b -@ 2| samtools sort -@ 2 -O bam -o $sra.sorted.bam
+(hisat2 -x reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q ; >&2 echo "hisat done") | (samtools view -b -@ 2 ; >&2 echo "sam converted to bam") | (samtools sort -@ 2 -O bam -o $sra.sorted.bam ; >&2 echo "sort done")
 samtools index $sra.sorted.bam
 samtools idxstats $sra.sorted.bam > $sra.idxstats.txt
 samtools flagstat $sra.sorted.bam > $sra.flagstats.txt
@@ -58,7 +58,7 @@ then
   do
     sra=$line
     mkdir $sra
-    cp reference* /$sra
+    cp reference* $sra
     cd $sra
     pipeline
     cd ..
@@ -67,7 +67,7 @@ then
 else          # does pipe with only 1 sra
   sra=$sra_input
   mkdir $sra
-  cp reference* /$sra
+  cp reference* $sra
   cd $sra
   pipeline
 fi
