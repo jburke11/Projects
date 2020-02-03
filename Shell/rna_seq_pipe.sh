@@ -79,10 +79,9 @@ then
 fi
 
 echo "all files analyzed"
-if [ $clean = true ];   #cleans up files
+if [ $clean = true ];   #cleans up reference files
 then
     rm -i reference*
-    rm -i *.fastq
   fi
 
 unload_modules  #unload files
