@@ -26,7 +26,7 @@ samtools idxstats $sra.sorted.bam > $sra.idxstats.txt
 echo "idxstats completed"
 samtools flagstat $sra.sorted.bam > $sra.flagstats.txt
 echo "flagstats completed"
-echo "analysis complete"
+echo "analysis of $sra complete"
 }
 
 function unload_modules {   # unloads all modules used
