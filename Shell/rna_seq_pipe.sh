@@ -19,9 +19,9 @@ cutadapt -g AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -a AGATCG
 fastqc $sra.R*
 echo "entering alignment"
 hisat2 -x reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q | samtools view -b -@ 2  | samtools sort -@ 2 -O bam -o $sra.sorted.bam
-samtools index $sra.sorted.
 echo "alignment complete"
-echo "index built"
+samtools index $sra.sorted.
+echo "indexing complete"
 samtools idxstats $sra.sorted.bam > $sra.idxstats.txt
 echo "idxstats completed"
 samtools flagstat $sra.sorted.bam > $sra.flagstats.txt
