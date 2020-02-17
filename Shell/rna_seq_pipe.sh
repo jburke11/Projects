@@ -18,7 +18,7 @@ cutadapt -g AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -a AGATCG
 -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -f fastq -n 2 -m 100 -q 10 -j 4 -o $sra.R1.fastq -p $sra.R2.fastq $sra*.fastq  > $sra.cutadaptlog.txt
 fastqc $sra.R*
 echo "entering alignment"
-hisat2 -x reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q | samtools view -b -@ 2  | samtools sort -@ 2 -O bam -o $sra.sorted.bam
+hisat2 -x reference -1 $sra.R1.fastq -2 $sra.R2.fastq  -q --dta-cufflinks | samtools view -b -@ 2  | samtools sort -@ 2 -O bam -o $sra.sorted.bam
 echo "alignment complete"
 samtools index $sra.sorted.bam
 echo "indexing complete"
