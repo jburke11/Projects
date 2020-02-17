@@ -1,6 +1,6 @@
 library("DESeq2")
-cts <- as.matrix(read.csv("/Users/burkej24/Desktop/SRR11012008.csv",row.names = "tracking_id"))
-coldata <- read.csv("/Users/burkej24/Desktop/coldata.csv", row.names=1)
+cts <- as.matrix(read.csv("/Users/burkej24/Desktop/De/SRR11012008.csv",row.names = "tracking_id"))
+coldata <- read.csv("/Users/burkej24/Desktop/De/coldata.csv", row.names=1)
 coldata <- coldata[,c("condition", "type")]
 dds <- DESeqDataSetFromMatrix(countData = cts,
                               colData = coldata,
