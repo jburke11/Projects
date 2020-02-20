@@ -1,0 +1,6 @@
+python exercises
+ncbi blast from command line
+regex
+updated rice/mint website
+created potato2.0 website
+created pipeline for rna sequencing data using many different open source tools
