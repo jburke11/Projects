@@ -4,7 +4,7 @@ coldata <- read.csv("/Users/burkej24/Desktop/De/coldata.csv", row.names=1)
 coldata <- coldata[,c("condition", "type")]
 dds <- DESeqDataSetFromMatrix(countData = cts,
                               colData = coldata,
-                              design = ~ condition)
+                              design = ~ condition + type)
 dds <-DESeq(dds)
 res <- results(dds)
 plotMA(res, ylim=c(-2,2))
