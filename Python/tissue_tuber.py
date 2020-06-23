@@ -2,7 +2,7 @@ import docx
 import datetime
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 #load in the template document
-document = docx.Document("/Users/burkej24/Desktop/tc_labels.docx")
+document = docx.Document("/Users/burkej24/Desktop/tc_labels_tuber.docx")
 # configure the default syle: all font is bold, left aligned
 style = document.styles["Normal"]
 font = style.font.bold=True
@@ -10,23 +10,16 @@ form = style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 # get table object from the template
 table = document.tables[0]
 # recieve the input in a comma separated list and create replicates
-atlantic_evol = input("Input number of atlantic for tuber evolution: ").split(",")
-atlantic_nsf = input ("Input number of atlantic for nsf ").split(",")
-m6 = input ("input all M6 ").split(",")
-hjt =  input("input all HJT")
+atlantic_evol = int(input("Input number of atlantic for tuber evolution: "))
+atlantic_nsf = int(input ("Input number of atlantic for nsf "))
+m6 = int(input ("input number of M6 "))
+hjt =  int(input("input number of HJT"))
 # get the current date in mm/dd/year format
 date = datetime.datetime.now()
 date = date.strftime("%x")
 # remove all empty elements in the lists
-s = [i for i in s if i]
-gwh = [i for i in gwh if i]
-other = [i for i in other if i]
-# sort them
-s.sort()
-gwh.sort()
-other.sort()
-# get the length
-length = len(s) + len(gwh) + len(other)
+
+length = atlantic_evol + atlantic_nsf + m6 + hjt
 # get the number of full rows
 rows = int(length / 4)
 # get the number of leftover cells
@@ -40,36 +33,46 @@ if extra_cells != 0:
 row_num = 0
 col_num = 0
 # main loops for populating table
-for element in s:
+for element in range(atlantic_evol):
     if col_num % 2 != 0:
         continue
     elif (col_num / 6 == 1):
-        table.cell(row_num, col_num).text = "SUP19xM6" + "\t" + "# " + element + "\n" + "S" + "\t" + date
+        table.cell(row_num, col_num).text = "Atlantic" + "\n" + "JB" + "\t" + date
         row_num += 1
         col_num = 0
     else:
-        table.cell(row_num, col_num).text = "SUP19xM6" + "\t" + "# " + element + "\n" + "S" + "\t" +  date
+        table.cell(row_num, col_num).text = "Atlantic" + "\n" + "JB" + "\t" + date
         col_num += 2
-for element in gwh:
+for element in range(atlantic_nsf):
     if col_num % 2 != 0:
         continue
     elif (col_num / 6 == 1):
-        table.cell(row_num, col_num).text = "SUP19xM6" + "\t" + "# " + element + "\n" + "GMH" + "\t" + date
+        table.cell(row_num, col_num).text = "Atlantic" + "\n" + "JB" + "\t" + date
         row_num += 1
         col_num = 0
     else:
-        table.cell(row_num, col_num).text = "SUP19xM6" + "\t" + "# " + element + "\n" + "GMH" + "\t" + date
+        table.cell(row_num, col_num).text = "Atlantic" + "\n" + "JB" + "\t" + date
         col_num += 2
-form = style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
-for element in other:
+for element in range(m6):
     if col_num % 2 != 0:
         continue
     elif (col_num / 6 == 1):
-        table.cell(row_num, col_num).text = element + "\t" + "\n" + date + "\t"
+        table.cell(row_num, col_num).text = "M6" + "\n" + "JB" + "\t" + date
         row_num += 1
         col_num = 0
     else:
-        table.cell(row_num, col_num).text = element + "\t" + "\n" + date + "\t"
+        table.cell(row_num, col_num).text = "M6" + "\n" + "JB" + "\t" + date
+        col_num += 2
+
+for element in range(hjt):
+    if col_num % 2 != 0:
+        continue
+    elif (col_num / 6 == 1):
+        table.cell(row_num, col_num).text = "HJT 1366" + "\n" + "JB" + "\t" + date
+        row_num += 1
+        col_num = 0
+    else:
+        table.cell(row_num, col_num).text = "HJT 1366" + "\n" + "JB" + "\t" + date
         col_num += 2
 date = date.replace("/", "_")
-document.save("/Users/burkej24/Desktop/" + date + "_tc.docx")
+document.save("/Users/burkej24/Desktop/" + date + "_tc_tuber.docx")
