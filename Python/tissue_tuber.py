@@ -11,9 +11,9 @@ form = style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 table = document.tables[0]
 # recieve the input in a comma separated list and create replicates
 atlantic_evol = int(input("Input number of atlantic for tuber evolution: "))
-atlantic_nsf = int(input ("Input number of atlantic for nsf "))
-m6 = int(input ("input number of M6 "))
-hjt =  int(input("input number of HJT"))
+atlantic_nsf = int(input ("Input number of atlantic for nsf: "))
+m6 = int(input ("input number of M6: "))
+hjt =  int(input("input number of HJT: "))
 # get the current date in mm/dd/year format
 date = datetime.datetime.now()
 date = date.strftime("%x")
