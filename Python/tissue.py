@@ -1,6 +1,8 @@
 import docx
 import datetime
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.table import WD_ROW_HEIGHT_RULE
+from docx.shared import Inches
 #load in the template document
 document = docx.Document("/Users/burkej24/Desktop/tc_labels_gen.docx")
 # configure the default syle: all font is bold, left aligned
@@ -70,6 +72,10 @@ for element in other:
     else:
         table.cell(row_num, col_num).text = element + "\t" + "\n" + date + "\t"
         col_num += 2
+# set the row height
+for row in table.rows:
+    row.height_rule = WD_ROW_HEIGHT_RULE.EXACTLY
+    row.height = Inches(0.5)
 #clean up the date
 date = date.replace("/", "_")
 document.save("/Users/burkej24/Desktop/" + date + "_tc.docx")
